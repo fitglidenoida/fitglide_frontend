@@ -1,0 +1,237 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import '../styles/user.css'; // assuming you save the CSS in User.css
+
+//login api
+import { login } from '../axios/auth';
+
+const User = () => {
+  const [signIn, setSignIn] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    mobile: '',
+    password: '',
+    confirmPassword: '',
+    username: ''
+  });
+
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSignIn(true);
+    }, 200);
+
+    // Cleanup the timer on component unmount
+    return () => clearTimeout(timer);
+  }, []);
+
+  const toggleForm = () => {
+    setSignIn(!signIn);
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSignup = async () => {
+    const { email, mobile, password, username } = formData;
+    try {
+      const response = await fetch('http://localhost:1337/api/auth/local/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:{
+          username,
+          email,
+          password,
+          mobile
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('User registered successfully:', data);
+        setFormData({
+          email: '',
+          mobile: '',
+          password: '',
+          confirmPassword: '',
+          username: ''
+        });
+        // Redirect to UserDashboard after successful signup
+        navigate('/dashboard'); // Updated navigation
+      } else {
+        console.error('Error during signup:', data.message);
+      }
+    } catch (error) {
+      console.error('Error during signup:', error);
+    }
+  };
+
+  const handleLogin = async () => {
+    const { username, password } = formData;
+
+    const response = await login({
+            "identifier": username, // Strapi uses 'identifier' for login (could be email or username)
+            password
+          }
+      ).then(data =>{
+      console.log(data);
+        
+        console.log('User logged in successfully:', data);
+        setFormData({
+          email: '',
+          mobile: '',
+          password: '',
+          confirmPassword: '',
+          username: ''
+        });
+        // Store JWT token for future API requests
+        localStorage.setItem('jwt', data.jwt);
+        localStorage.setItem('user',JSON.stringify(data.user))
+        // Redirect to UserDashboard after successful login
+        navigate('/dashboard'); // Updated navigation
+      
+    }).catch(e =>
+      console.error('Error during login:', e.message)  
+    );
+    // try {
+    //   const response = await fetch('http://localhost:1337/api/auth/local', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({
+    //       identifier: username, // Strapi uses 'identifier' for login (could be email or username)
+    //       password
+    //     })
+    //   });
+    //   const data = await response.json();
+    //   if (response.ok) {
+    //     console.log('User logged in successfully:', data);
+    //     setFormData({
+    //       email: '',
+    //       mobile: '',
+    //       password: '',
+    //       confirmPassword: '',
+    //       username: ''
+    //     });
+    //     // Store JWT token for future API requests
+    //     localStorage.setItem('jwt', data.jwt);
+    //     // Redirect to UserDashboard after successful login
+    //     navigate('/dashboard'); // Updated navigation
+    //   } else {
+    //     console.error('Error during login:', data.message);
+    //   }
+    // } catch (error) {
+    //   console.error('Error during login:', error);
+    // }
+  };
+
+  return (
+    <div id="container" className={`container ${signIn ? 'sign-in' : 'sign-up'}`}>
+      <div className="row">
+        {/* SIGN UP */}
+        <div className="col align-items-center flex-col sign-up">
+          <div className="form-wrapper align-items-center">
+            <div className="form sign-up">
+              <div className="input-group">
+                <i className="bx bx-mail-send"></i>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="input-group">
+                <i className="bx bx-phone"></i>
+                <input
+                  type="number"
+                  name="mobile"
+                  placeholder="Mobile"
+                  value={formData.mobile}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="input-group">
+                <i className="bx bxs-lock-alt"></i>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="input-group">
+                <i className="bx bxs-lock-alt"></i>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <button onClick={handleSignup}>Sign up</button>
+              <p>
+                <span>Already have an account?</span>
+                <b onClick={toggleForm} className="pointer">Sign in here</b>
+              </p>
+            </div>
+          </div>
+        </div>
+        {/* SIGN IN */}
+        <div className="col align-items-center flex-col sign-in">
+          <div className="form-wrapper align-items-center">
+            <div className="form sign-in">
+              <div className="input-group">
+                <i className="bx bxs-user"></i>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="input-group">
+                <i className="bx bxs-lock-alt"></i>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <button onClick={handleLogin}>Sign in</button>
+              <p><b>Forgot password?</b></p>
+              <p>
+                <span>Don't have an account?</span>
+                <b onClick={toggleForm} className="pointer">Sign up here</b>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* CONTENT SECTION */}
+      <div className="row content-row">
+        {/* SIGN IN CONTENT */}
+        <div className="col align-items-center flex-col">
+          <div className="text sign-in">
+            <h2>Welcome</h2>
+          </div>
+          <div className="img sign-in"></div>
+        </div>
+        <div className="col align-items-center flex-col">
+          <div className="img sign-up"></div>
+          <div className="text sign-up">
+            <h2>Road to Fitness</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default User;

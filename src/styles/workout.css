@@ -1,0 +1,80 @@
+/* Ensure the workout container is properly styled */
+.workout-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+
+/* FullCalendar styling for the overall calendar */
+.fc {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Styling for the day header (Sunday, Monday, etc.) */
+.fc-col-header-cell, .fc-col-header-cell-cushion {
+    color: black !important; /* Forcing day header text color to black */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Day cells in the calendar */
+.fc-daygrid-day {
+    border: 1px solid #ddd; /* Adds borders to each date cell */
+    padding: 10px;
+    color: black; /* Ensures all text inside the cell is black */
+}
+
+/* The top part of each day cell where the date number appears */
+.fc-daygrid-day-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    font-size: 14px;
+    color: black; /* Ensure date numbers are black */
+}
+
+/* The date number specifically */
+.fc-daygrid-day-number {
+    color: black; /* This makes the date numbers (e.g., 12, 13) black */
+    font-weight: bold;
+}
+/* Style for the workout events */
+.fc-event {
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 5px;
+    color: white; /* Event text stays white */
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.fc-timegrid .fc-slats {
+    background-color: #f9f9f9; /* Background for time slots */
+}
+
+.fc-timegrid .fc-event {
+    border: none; /* Remove borders for events */
+}
+
+/* Optional: Ensure that the time slots have a distinct appearance */
+.fc-timegrid .fc-slot {
+    border-bottom: 1px solid #ddd; /* Add a border to the time slots */
+}
+
+.fc-timegrid .fc-time-grid .fc-event {
+    margin: 2px; /* Space between events */
+}
+
+/* Example color-coding for different event types */
+.fc-event-cardio {
+    background-color: #ff6961; /* Cardio workout background */
+}
+
+.fc-event-strength {
+    background-color: #77dd77; /* Strength workout background */
+}
