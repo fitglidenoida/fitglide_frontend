@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import '../styles/user.css'; // assuming you save the CSS in User.css
 
 //login api
-import { login,register } from '../axios/auth';
+import { login } from '../axios/auth';
 
 const User = () => {
   const [signIn, setSignIn] = useState(true); // Default to the sign-in form
   const [formData, setFormData] = useState({
     email: '',
-    mobile: null,
+    mobile: '',
     password: '',
     confirmPassword: '',
     username: ''
@@ -22,24 +22,17 @@ const User = () => {
   };
 
   const handleInputChange = (e) => {
-    if(e.target.name == "mobile"){
-      setFormData({ ...formData, [e.target.name]: parseInt(e.target.value) });
-    }else{
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
-    
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSignup = async () => {
     const { email, mobile, password, username } = formData;
-
-    
     try {
       const response = await fetch('http://localhost:1337/api/auth/local/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          username:email,
+          username,
           email,
           password,
           mobile
@@ -56,8 +49,6 @@ const User = () => {
           username: ''
         });
         // Redirect to UserDashboard after successful signup
-        localStorage.setItem('jwt', data.jwt);
-      localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/dashboard'); // Updated navigation
       } else {
         console.error('Error during signup:', data.message);
