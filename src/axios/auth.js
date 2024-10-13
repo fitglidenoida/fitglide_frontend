@@ -3,6 +3,10 @@ import api from './axiosInstance';
 // Login request
 const login = (data) => api.post('auth/local?populate=*', data);
 
+//register
+
+const register =(data) => api.post('/auth/local/register',data)
+
 // Fetch user details
 const me = () => api.get('users/me?populate=*');
 
@@ -23,6 +27,7 @@ const Orders = () => api.get('create-order?populate=*'); // Assuming the endpoin
 
 export {
   login,
+  register,
   me,
   updateUser,
   WorkoutPlans,
