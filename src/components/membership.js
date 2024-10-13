@@ -10,20 +10,20 @@ import { Plans } from '../axios/auth'; // Import the Plans function
 function Membership() {
   const [plans, setPlans] = useState([]);
   const navigate = useNavigate(); // Initialize useNavigate
-
-  useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        const response = await Plans(); // Fetch plans
-        console.log("Fetched plans:", response.data); // Log the response to check the structure
-        setPlans(response.data); // Set state with the fetched plans
-      } catch (error) {
-        console.error("Error fetching plans:", error);
-      }
-    };
-
-    fetchPlans();
-  }, []);
+  
+    useEffect(() => {
+      const fetchPlans = async () => {
+        try {
+          const response = await Plans(); // Fetch plans
+          console.log("Fetched plans response:", response); // Log the full response to inspect
+          setPlans(response.data); // Set state with the fetched plans
+        } catch (error) {
+          console.error("Error fetching plans:", error);
+        }
+      };
+    
+      fetchPlans();
+    }, []);
 
   // Function to handle the "Join Now" button click
   const handleJoinNow = (plan) => {
@@ -58,17 +58,27 @@ function Membership() {
         <div className="price__card__content">
           <h4>{plan.description}</h4> {/* Mapped to description */}
           <h3>₹{plan.amount}</h3> {/* Mapped to amount */}
-          <p><strong>Validity:</strong> {plan.duration} months</p> {/* Mapped to duration and added 'months' */}
-          {plan.features && plan.features.plans && Array.isArray(plan.features.plans.features) ? (
+          <p><strong>Validity:</strong> {plan.duration} months</p> {/* Mapped to duration */}
+
+          {/* Log the entire features object */}
+          {console.log("Plan features:", plan.features)}
+
+          {/* Ensure the plan has features and plans before accessing them */}
+          {plan.features && plan.features.plans && plan.features.plans.length > 0 ? (
             <>
-              {plan.features.plans.features.map((feature, index) => (
+              {/* Log the specific plan we're accessing */}
+              {console.log("Accessing plan:", plan.features.plans[0])}
+
+              {/* Access the first plan and map through its features */}
+              {plan.features.plans[0].features && plan.features.plans[0].features.map((feature, index) => (
                 <p key={index}>
                   <i className="ri-checkbox-circle-line"></i>
                   {feature.feature} {feature.included ? "" : "(Not included)"}
                 </p>
               ))}
+
               {/* Render notes below the features */}
-              {plan.features.plans.features.map((feature, index) => 
+              {plan.features.plans[0].features && plan.features.plans[0].features.map((feature, index) => 
                 feature.note ? <p key={`note-${index}`}><strong>*</strong> {feature.note}</p> : null
               )}
             </>

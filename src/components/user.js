@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import '../styles/user.css'; // assuming you save the CSS in User.css
 
@@ -6,7 +6,7 @@ import '../styles/user.css'; // assuming you save the CSS in User.css
 import { login } from '../axios/auth';
 
 const User = () => {
-  const [signIn, setSignIn] = useState(false);
+  const [signIn, setSignIn] = useState(true); // Default to the sign-in form
   const [formData, setFormData] = useState({
     email: '',
     mobile: '',
@@ -16,15 +16,6 @@ const User = () => {
   });
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSignIn(true);
-    }, 200);
-
-    // Cleanup the timer on component unmount
-    return () => clearTimeout(timer);
-  }, []);
 
   const toggleForm = () => {
     setSignIn(!signIn);
@@ -40,12 +31,12 @@ const User = () => {
       const response = await fetch('http://localhost:1337/api/auth/local/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:{
+        body: JSON.stringify({
           username,
           email,
           password,
           mobile
-        }
+        })
       });
       const data = await response.json();
       if (response.ok) {
@@ -70,59 +61,26 @@ const User = () => {
   const handleLogin = async () => {
     const { username, password } = formData;
 
-    const response = await login({
-            "identifier": username, // Strapi uses 'identifier' for login (could be email or username)
-            password
-          }
-      ).then(data =>{
-      console.log(data);
-        
-        console.log('User logged in successfully:', data);
-        setFormData({
-          email: '',
-          mobile: '',
-          password: '',
-          confirmPassword: '',
-          username: ''
-        });
-        // Store JWT token for future API requests
-        localStorage.setItem('jwt', data.jwt);
-        localStorage.setItem('user',JSON.stringify(data.user))
-        // Redirect to UserDashboard after successful login
-        navigate('/dashboard'); // Updated navigation
-      
-    }).catch(e =>
-      console.error('Error during login:', e.message)  
-    );
-    // try {
-    //   const response = await fetch('http://localhost:1337/api/auth/local', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({
-    //       identifier: username, // Strapi uses 'identifier' for login (could be email or username)
-    //       password
-    //     })
-    //   });
-    //   const data = await response.json();
-    //   if (response.ok) {
-    //     console.log('User logged in successfully:', data);
-    //     setFormData({
-    //       email: '',
-    //       mobile: '',
-    //       password: '',
-    //       confirmPassword: '',
-    //       username: ''
-    //     });
-    //     // Store JWT token for future API requests
-    //     localStorage.setItem('jwt', data.jwt);
-    //     // Redirect to UserDashboard after successful login
-    //     navigate('/dashboard'); // Updated navigation
-    //   } else {
-    //     console.error('Error during login:', data.message);
-    //   }
-    // } catch (error) {
-    //   console.error('Error during login:', error);
-    // }
+    login({
+      identifier: username, // Strapi uses 'identifier' for login (could be email or username)
+      password
+    }).then(data => {
+      console.log('User logged in successfully:', data);
+      setFormData({
+        email: '',
+        mobile: '',
+        password: '',
+        confirmPassword: '',
+        username: ''
+      });
+      // Store JWT token for future API requests
+      localStorage.setItem('jwt', data.jwt);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      // Redirect to UserDashboard after successful login
+      navigate('/dashboard'); // Updated navigation
+    }).catch(e => {
+      console.error('Error during login:', e.message);
+    });
   };
 
   return (

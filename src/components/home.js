@@ -16,7 +16,7 @@ const Home = () => (
         <a href="logo"><img src={FitGlideLogoWhite} alt="logo" /></a>
       </div>
       <NavLink />
-      <a href="/membership">
+      <a href="/user">
         <button className="btn">Join Now</button>
       </a>
     </nav>
@@ -32,7 +32,7 @@ const Home = () => (
           fitter, and more confident you. Sign up to 'Shape Up Your Body'
           and witness the incredible transformation your body is capable of!
         </p>
-        <a href="whyus.html">
+        <a href="/services">
           <button className="btn">Get Started</button>
         </a>
       </div>
@@ -57,7 +57,7 @@ const Home = () => (
               Embrace the essence of strength as we delve into its various
               dimensions physical, mental, and emotional.
             </p>
-            <a href="/services">Join Now <i className="ri-arrow-right-line"></i></a>
+            <a href="/services">Explore <i className="ri-arrow-right-line"></i></a>
           </div>
           <div className="explore__card">
             <span><i className="ri-heart-pulse-fill"></i></span>
@@ -66,7 +66,7 @@ const Home = () => (
               It encompasses a range of activities that improve Cario Vascular health,
               flexibility, and overall well-being.
             </p>
-            <a href="/services">Join Now <i className="ri-arrow-right-line"></i></a>
+            <a href="/services">Explore <i className="ri-arrow-right-line"></i></a>
           </div>
           <div className="explore__card">
             <span><i className="ri-run-line"></i></span>
@@ -75,7 +75,7 @@ const Home = () => (
               Through a combination of workout routines and expert guidance, we'll
               empower you to reach your goals.
             </p>
-            <a href="/services">Join Now <i className="ri-arrow-right-line"></i></a>
+            <a href="/services">Explore <i className="ri-arrow-right-line"></i></a>
           </div>
           <div className="explore__card">
             <span><i className="ri-shopping-basket-fill"></i></span>
@@ -84,7 +84,7 @@ const Home = () => (
               Designed for individuals, our program offers an effective approach
               to managing sugar effectively.
             </p>
-            <a href="/services">Join Now <i className="ri-arrow-right-line"></i></a>
+            <a href="/services">Explore <i className="ri-arrow-right-line"></i></a>
           </div>
         </div>
       </section>
@@ -104,7 +104,7 @@ const Home = () => (
             exercises. Each program is carefully curated to keep you engaged and
             challenged, ensuring you never hit a plateau in your fitness endeavors.
           </p>
-          <a href="/membership">
+          <a href="/user">
             <button className="btn">Join Now</button>
           </a>
         </div>
@@ -145,93 +145,17 @@ const Home = () => (
       </section>
 
       <section className="section__container price__container">
-        <h2 className="section__header">OUR PRICING PLAN</h2>
-        <p className="section__subheader">
-          Our pricing plan comes with various membership tiers, each tailored to
-          cater to different preferences and fitness aspirations.
-        </p>
-        <div className="price__grid">
-          <div className="price__card">
-            <div className="price__card__content"> 
-              <h4>Fitness Plan</h4>
-              <h3>₹999</h3>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Plans start @ 999/Month
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Personalised Training Plan
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Personalised Nutrition Advise*
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Community Support
-              </p>
-              <p>
-                * check the plans for inclusions
-              </p>
-            </div>
-            <button className="btn price__btn">Join Now</button>
-          </div>
-          <div className="price__card">
-            <div className="price__card__content">
-              <h4>Weight Loss Plan</h4>
-              <h3>₹9999</h3>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Pound Shedding Training Plans
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Weekly Diet plans
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Dedicated Fitness Buddy
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Validity 6 months
-              </p>
-            </div>
-            <button className="btn price__btn">Join Now</button>
-          </div>
-          <div className="price__card">
-            <div className="price__card__content">
-              <h4>Diabetes Management Plan</h4>
-              <h3>₹12999</h3>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Diabetes Focused training plans
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Weekly Nutrition consulting
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Dedicated Finess buddy
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Free Phisician Consulting*
-              </p>
-              <p>
-                <i className="ri-checkbox-circle-line"></i>
-                Validity 6 months
-              </p>
-              <p>
-                *Twice in period of 6 months
-              </p>
-            </div>
-            <button className="btn price__btn">Join Now</button>
-          </div>
-        </div>
-      </section>
+  <h2 className="section__header">OUR PRICING PLAN</h2>
+  <p className="section__subheader">
+    Our pricing plan comes with various membership tiers, each tailored to
+    cater to different preferences and fitness aspirations.
+  </p>
+  <div className="check_plans">
+    <a href="/membership">
+      <button className="btn">Check Our Plans</button>
+    </a>
+  </div>
+</section>
 
       <section className="review">
         <div className="section__container review__container">

@@ -646,3 +646,18 @@ nav {
     text-align: center;
   }
 }
+
+/* Add the check_plans section */
+/* Updated check_plans section */
+.check_plans {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically (optional) */
+  height: 100%;  
+  padding: 20px;          /* Ensure the height fits the container */
+}
+
+.check_plans_btn {
+  padding: 10px 20px;
+  font-size: 16px;
+}

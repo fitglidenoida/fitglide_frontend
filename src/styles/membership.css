@@ -437,6 +437,13 @@ nav {
   }
 }
 
+.price__duration {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+
 @media (width < 600px) {
   .explore__header {
     flex-direction: column;
