@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import '../styles/user.css'; // assuming you save the CSS in User.css
 
@@ -20,6 +20,14 @@ const User = () => {
   const toggleForm = () => {
     setSignIn(!signIn);
   };
+
+  useEffect(()=>{
+    const jwt = localStorage.getItem("jwt");
+    if(jwt != null && jwt != undefined){
+      navigate('/dashboard');
+    }
+
+  },[])
 
   const handleInputChange = (e) => {
     if(e.target.name == "mobile"){

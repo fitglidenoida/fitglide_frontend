@@ -57,6 +57,7 @@ const UserDashboard = () => {
 
     const handleSignout = () => {
         localStorage.removeItem("user"); 
+        localStorage.removeItem("jwt"); 
         navigate('/user'); 
     };
 
