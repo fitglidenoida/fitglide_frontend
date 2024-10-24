@@ -4,10 +4,10 @@ import axiosInstance from '../axios/axiosInstance';
 import '../styles/dashboard.css';
 import 'remixicon/fonts/remixicon.css';
 
-import { me } from '../axios/auth';
+import { me, Stats, StravaData } from '../axios/auth';  // Added StravaData to fetch strava-input data
 import Workout from '../components/workout'; 
 import Diet from '../components/diet'; 
-import MyAccount from '../components/myaccount'; // Import MyAccount component
+import MyAccount from '../components/myaccount'; 
 
 const baseURL = "http://localhost:1337/";
 
@@ -16,6 +16,10 @@ const UserDashboard = () => {
     const [activeTab, setActiveTab] = useState('stats'); 
     const [workoutData, setWorkoutData] = useState([]); 
     const [dietData, setDietData] = useState([]); 
+    const [healthVitals, setHealthVitals] = useState({}); 
+    const [totalCaloriesBurned, setTotalCaloriesBurned] = useState(0); 
+    const [totalCaloriesConsumed, setTotalCaloriesConsumed] = useState(0); 
+    const [weeklyCalories, setWeeklyCalories] = useState(0);  // For weekly burned calories
     const userDetail = localStorage.getItem("user");
     const navigate = useNavigate(); 
    
@@ -32,23 +36,64 @@ const UserDashboard = () => {
                     });
                 })
                 .catch(e => console.log(e.message));
+
+            Stats(userdetail.documentId)
+                .then(response => {
+                    if (response && response.data && response.data.length > 0) {
+                        const vitals = response.data[0];
+                        setHealthVitals(vitals); 
+                    }
+                })
+                .catch(e => console.log("Error fetching health vitals", e));
         } else {
             console.error('User detail is not available or does not contain documentId');
-            navigate('/login'); 
+            navigate('/user'); 
         }
-    
-        axiosInstance.get("/workout-plans")
-            .then((response) => {
-                setWorkoutData(response.data); 
+
+        // Fetch calories burned from Strava input for the current week
+        StravaData()
+            .then(response => {
+                const stravaData = response.data;
+                
+                if (stravaData && stravaData.length > 0) {
+                    const currentWeekData = stravaData.filter(entry => {
+                        const entryDate = new Date(entry.start_date_local);
+                        const currentDate = new Date();
+                        const currentWeekStart = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+                        
+                        return entryDate >= currentWeekStart;
+                    });
+                    
+                    const totalWeekCalories = currentWeekData.reduce((total, entry) => total + (entry.calories || 0), 0);
+                    const averageWeekCalories = totalWeekCalories / (currentWeekData.length || 1); 
+                    setWeeklyCalories(averageWeekCalories); // Set weekly average calories burned
+                } else {
+                    console.log("No Strava data available for the week");
+                }
             })
-            .catch(e => console.log("Error fetching workout data", e));
-    
+            .catch(e => console.log("Error fetching Strava input data", e));
+
+        // Fetch diet plan and calculate total calories consumed
         axiosInstance.get("/diet-plans")
             .then((response) => {
-                setDietData(response.data); 
+                const dietPlans = response.data;
+                setDietData(dietPlans);
+
+                // Loop through each diet plan and fetch its associated diet components
+                const fetchDietComponents = dietPlans.map(plan => 
+                    axiosInstance.get(`/diet-components?diet_plan=${plan.id}`)
+                );
+
+                Promise.all(fetchDietComponents)
+                    .then(results => {
+                        const totalCalories = results.reduce((total, res) => {
+                            return total + res.data.reduce((sum, component) => sum + (component.calories || 0), 0);
+                        }, 0);
+                        setTotalCaloriesConsumed(totalCalories);
+                    })
+                    .catch(e => console.log("Error fetching diet components", e));
             })
             .catch(e => console.log("Error fetching diet data", e));
-    
     }, [navigate, userDetail]);
 
     const handleTabClick = (tab) => {
@@ -61,9 +106,12 @@ const UserDashboard = () => {
         navigate('/user'); 
     };
 
-    const formatTime = (timeString) => {
-        const date = new Date(timeString);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    const handleConnectStrava = () => {
+        const clientId = 117285; 
+        const redirectUri = 'http://localhost:3000/strava/callback'; 
+        const scope = 'read,activity:read'; 
+        const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+        window.location.href = authUrl;
     };
 
     return (
@@ -79,6 +127,9 @@ const UserDashboard = () => {
                     </li>
                     <li onClick={() => handleTabClick('workout')}>
                         <i className="ri-open-arm-line"></i> Workout
+                    </li>
+                    <li onClick={handleConnectStrava}>
+                        <i className="ri-link-line"></i> Connect Strava
                     </li>
                 </ul>
                 <ul className='bottom-icon'>
@@ -98,14 +149,14 @@ const UserDashboard = () => {
                                         src={`${baseURL}${user.your_image.url}`}
                                         alt="Profile"
                                         className="profile-picture"
-                                        onClick={() => handleTabClick('myaccount')} // Image click shows MyAccount section
+                                        onClick={() => handleTabClick('myaccount')} 
                                     />
                                 ) : (
                                     <img
                                         src={`${baseURL}/uploads/default_avatar.png`}
                                         alt="Default Profile"
                                         className="profile-picture"
-                                        onClick={() => handleTabClick('myaccount')} // Image click shows MyAccount section
+                                        onClick={() => handleTabClick('myaccount')}
                                     />
                                 )}
                                 <span>Hello {user.first_name}</span>
@@ -117,52 +168,39 @@ const UserDashboard = () => {
                     <input type="text" placeholder="Search" className="search-box" />
                 </div>
 
-                  {/* Container to hold either stats, workout calendar, or diet */}
-                  <div className="content-area">
+                <div className="content-area">
                     {activeTab === 'stats' && (
                         <div className="performance-overview">
                             <div className="stats-card">
-                                <p>Production Volume</p>
-                                <h2>10.431</h2>
+                                <p>Weight Loss Target</p>
+                                <h2>{healthVitals.weight_loss_goal ? healthVitals.weight_loss_goal : "N/A"} KG</h2>
                             </div>
                             <div className="stats-card">
-                                <p>Order Volume</p>
-                                <h2>7.061</h2>
+                                <p>Calories Burned This Week</p>
+                                <h2>{weeklyCalories.toFixed(2)} kcal</h2> {/* Average weekly calories burned */}
                             </div>
                             <div className="stats-card">
-                                <p>Sales Revenue</p>
-                                <h2>$ 29 m</h2>
-                            </div>
-                            <div className="stats-card">
-                                <p>Total Machines</p>
-                                <h2>267</h2>
-                            </div>
-                            <div className="stats-card">
-                                <p>Production Costs</p>
-                                <h2>$ 1.137.061</h2>
-                            </div>
-                            <div className="stats-card">
-                                <p>Waste Produced</p>
-                                <h2>789.03</h2>
+                                <p>Calories Consumed</p>
+                                <h2>{totalCaloriesConsumed} kcal</h2>
                             </div>
                         </div>
                     )}
 
                     {activeTab === 'workout' && (
                         <div className="workout-container">
-                            <Workout className="workout-content" workoutData={workoutData} formatTime={formatTime} />
+                            <Workout className="workout-content" workoutData={workoutData} />
                         </div>
                     )}
 
                     {activeTab === 'diet' && (
                         <div className="diet-container">
-                            <Diet className="diet-content" dietData={dietData} formatTime={formatTime} />
+                            <Diet className="diet-content" dietData={dietData} />
                         </div>
                     )}
 
                     {activeTab === 'myaccount' && (
                         <div className="myaccount-container">
-                            <MyAccount /> {/* Render MyAccount component */}
+                            <MyAccount /> 
                         </div>
                     )}
                 </div>

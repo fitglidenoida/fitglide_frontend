@@ -56,6 +56,9 @@ const User = () => {
           confirmPassword: '',
           username: ''
         });
+              // Store JWT token for future API requests
+      localStorage.setItem('jwt', data.jwt);
+      localStorage.setItem('user', JSON.stringify(data.user));
         // Redirect to UserDashboard after successful signup
         navigate('/dashboard'); // Updated navigation
       } else {
@@ -98,6 +101,16 @@ const User = () => {
         <div className="col align-items-center flex-col sign-up">
           <div className="form-wrapper align-items-center">
             <div className="form sign-up">
+            <div className="input-group">
+                <i className="bx bx-mail-send"></i>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                />
+              </div>
               <div className="input-group">
                 <i className="bx bx-mail-send"></i>
                 <input
