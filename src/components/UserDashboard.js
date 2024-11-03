@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axios/axiosInstance';
 import '../styles/dashboard.css';
 import 'remixicon/fonts/remixicon.css';
-
-import { me, Stats, StravaData } from '../axios/auth';  // Added StravaData to fetch strava-input data
+import CaloriesBurnedGauge from '../components/caloriesburnedgauge';
+import { me, Stats, StravaData } from '../axios/auth';
 import Workout from '../components/workout'; 
 import Diet from '../components/diet'; 
 import MyAccount from '../components/myaccount'; 
+import WeightTracking from '../components/weightlosschart';
 
 const baseURL = "http://localhost:1337/";
 
@@ -17,9 +18,9 @@ const UserDashboard = () => {
     const [workoutData, setWorkoutData] = useState([]); 
     const [dietData, setDietData] = useState([]); 
     const [healthVitals, setHealthVitals] = useState({}); 
-    const [totalCaloriesBurned, setTotalCaloriesBurned] = useState(0); 
+    const [totalCaloriesBurnedToday, setTotalCaloriesBurnedToday] = useState(0); 
     const [totalCaloriesConsumed, setTotalCaloriesConsumed] = useState(0); 
-    const [weeklyCalories, setWeeklyCalories] = useState(0);  // For weekly burned calories
+    const [weeklyCalories, setWeeklyCalories] = useState(0); 
     const userDetail = localStorage.getItem("user");
     const navigate = useNavigate(); 
    
@@ -50,25 +51,34 @@ const UserDashboard = () => {
             navigate('/user'); 
         }
 
-        // Fetch calories burned from Strava input for the current week
+        // Fetch calories burned from Strava input for the current week and today
         StravaData()
             .then(response => {
                 const stravaData = response.data;
-                
+
                 if (stravaData && stravaData.length > 0) {
+                    const currentDate = new Date();
+                    const dayOfWeek = currentDate.getDay();
+                    const currentWeekStart = new Date(currentDate.setDate(currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)));
+
                     const currentWeekData = stravaData.filter(entry => {
                         const entryDate = new Date(entry.start_date_local);
-                        const currentDate = new Date();
-                        const currentWeekStart = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
-                        
                         return entryDate >= currentWeekStart;
                     });
-                    
+
                     const totalWeekCalories = currentWeekData.reduce((total, entry) => total + (entry.calories || 0), 0);
-                    const averageWeekCalories = totalWeekCalories / (currentWeekData.length || 1); 
-                    setWeeklyCalories(averageWeekCalories); // Set weekly average calories burned
+                    setWeeklyCalories(totalWeekCalories);
+
+                    const todayCalories = stravaData
+                        .filter(entry => {
+                            const entryDate = new Date(entry.start_date_local);
+                            return entryDate.toDateString() === new Date().toDateString();
+                        })
+                        .reduce((total, entry) => total + (entry.calories || 0), 0);
+
+                    setTotalCaloriesBurnedToday(todayCalories);
                 } else {
-                    console.log("No Strava data available for the week");
+                    console.log("No Strava data available");
                 }
             })
             .catch(e => console.log("Error fetching Strava input data", e));
@@ -79,7 +89,6 @@ const UserDashboard = () => {
                 const dietPlans = response.data;
                 setDietData(dietPlans);
 
-                // Loop through each diet plan and fetch its associated diet components
                 const fetchDietComponents = dietPlans.map(plan => 
                     axiosInstance.get(`/diet-components?diet_plan=${plan.id}`)
                 );
@@ -176,12 +185,19 @@ const UserDashboard = () => {
                                 <h2>{healthVitals.weight_loss_goal ? healthVitals.weight_loss_goal : "N/A"} KG</h2>
                             </div>
                             <div className="stats-card">
-                                <p>Calories Burned This Week</p>
-                                <h2>{weeklyCalories.toFixed(2)} kcal</h2> {/* Average weekly calories burned */}
+                                <p>Calories Burned Today</p>
+                                <h2>{totalCaloriesBurnedToday} kcal</h2>
                             </div>
                             <div className="stats-card">
                                 <p>Calories Consumed</p>
                                 <h2>{totalCaloriesConsumed} kcal</h2>
+                            </div>
+                            <div className="WeightTracking" style={{ gridColumn: 'span 2' }}>
+                                <WeightTracking />
+                            </div>
+                            <div className="CaloriesBurnedGauge">
+                                <p>Calories Burned Gauge</p>
+                                <CaloriesBurnedGauge weeklyCalories={weeklyCalories} />
                             </div>
                         </div>
                     )}

@@ -167,3 +167,7 @@
     justify-content: flex-start;
     align-items: stretch;
 }
+.weight-tracking {
+    grid-column: span 2; /* This makes the Weight Tracking component take up 2 columns */
+    color: #f9ac54;
+}

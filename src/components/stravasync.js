@@ -46,7 +46,7 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
         }
 
         console.log(`Fetched ${activities.length} activities from Strava.`);
-        //let i = 1;
+        
         // Step 3: Process each activity
         for (const activity of activities) {
             console.log(`Processing activity with ID: ${activity.id}`);
@@ -57,124 +57,62 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
             });
 
             const detailedActivity = detailedActivityResponse.data;
-            console.log("detailedActivity",detailedActivity)
+            console.log("detailedActivity", detailedActivity);
+
             // Check if the activity already exists in the strava-input collection by its activity ID
-            strava_input(activity.id)
-            .then(result=>{
-                console.log(result);
-                if(result.data.length > 0 ){
-                    console.log(`Activity with ID ${activity.id} already exists.`);
-                }else{
-                    const activityData = {
-                        activity_id:activity.id,
-                        athlete_id: athleteId,  // From user data
-                        firstname: userData.firstname,
-                        lastname: userData.lastname,
-                        strava_username: userData.strava_username,
-                        profile: userData.profile,
-                        resource_state: detailedActivity.resource_state,
-                        profile_medium: userData.profile_medium,
-                        name: detailedActivity.name,
-                        distance: detailedActivity.distance,
-                        moving_time: detailedActivity.moving_time,
-                        elapsed_time: detailedActivity.elapsed_time,
-                        total_elevation_gain: detailedActivity.total_elevation_gain,
-                        sport_type: detailedActivity.type,
-                        elev_high: detailedActivity.elev_high,
-                        start_date: detailedActivity.start_date,
-                        start_date_local: detailedActivity.start_date_local,
-                        timezone: detailedActivity.timezone,
-                        gear_id: detailedActivity.gear_id,
-                        gear: detailedActivity.gear,
-                        kilojoules: detailedActivity.kilojoules,
-                        max_watts: detailedActivity.max_watts,
-                        weighted_average_watts: detailedActivity.weighted_average_watts,
-                        calories: detailedActivity.calories,
-                        average_speed: detailedActivity.average_speed,
-                        max_speed: detailedActivity.max_speed,
-                        description: detailedActivity.description,
-                        start_latlng: detailedActivity.start_latlng,
-                        end_latlng: detailedActivity.end_latlng,
-                        achievement_count: detailedActivity.achievement_count,
-                        kudos_count: detailedActivity.kudos_count,
-                        upload_id_str: detailedActivity.upload_id_str,
-                        photos: detailedActivity.photos,
-                        workout_type: detailedActivity.workout_type,
-                        device_watts: detailedActivity.device_watts,
-                        username:{
-                                connect:[userData.documentId]
-                        }
-                        // username: userData.strava_username,
-                    };
-                    strava_sync(activityData)
-                    .then(result =>{
-                        console.log(result)
-                        console.log(`Activity with ID ${activity.id} synced successfully.`);
-                    }).catch(err =>{
-                        console.error(err.message)
-                        console.log(`Activity with ID ${activity.id} synced error.`);
-                    })
+            const result = await strava_input(activity.id);
+            if (result.data.length > 0) {
+                console.log(`Activity with ID ${activity.id} already exists.`);
+            } else {
+                const activityData = {
+                    activity_id: activity.id,
+                    athlete_id: athleteId,  // From user data
+                    firstname: userData.firstname,
+                    lastname: userData.lastname,
+                    strava_username: userData.strava_username,
+                    profile: userData.profile,
+                    resource_state: detailedActivity.resource_state,
+                    profile_medium: userData.profile_medium,
+                    name: detailedActivity.name,
+                    distance: detailedActivity.distance,
+                    moving_time: detailedActivity.moving_time,
+                    elapsed_time: detailedActivity.elapsed_time,
+                    total_elevation_gain: detailedActivity.total_elevation_gain,
+                    sport_type: detailedActivity.type,
+                    elev_high: detailedActivity.elev_high,
+                    start_date: detailedActivity.start_date,
+                    start_date_local: detailedActivity.start_date_local,
+                    timezone: detailedActivity.timezone,
+                    gear_id: detailedActivity.gear_id,
+                    gear: detailedActivity.gear,
+                    kilojoules: detailedActivity.kilojoules,
+                    max_watts: detailedActivity.max_watts,
+                    weighted_average_watts: detailedActivity.weighted_average_watts,
+                    calories: detailedActivity.calories,
+                    average_speed: detailedActivity.average_speed,
+                    max_speed: detailedActivity.max_speed,
+                    description: detailedActivity.description,
+                    start_latlng: detailedActivity.start_latlng,
+                    end_latlng: detailedActivity.end_latlng,
+                    achievement_count: detailedActivity.achievement_count,
+                    kudos_count: detailedActivity.kudos_count,
+                    upload_id_str: detailedActivity.upload_id_str,
+                    photos: detailedActivity.photos,
+                    workout_type: detailedActivity.workout_type,
+                    device_watts: detailedActivity.device_watts,
+                    username: {
+                        connect: [userData.documentId]
+                    }
+                };
 
-                }
-                
-            }).catch(err => console.error(err))
-
-            // try {
-            //     const result = await strava_input(activity.id); // Check if activity already exists
-            //     if (result.data.length > 0) {
-            //         console.log(`Activity with ID ${activity.id} already exists.`);
-            //     } else {
-            //         // Prepare the data to be written to the strava-input collection
-            //         const activityData = {
-            //             activity_id:activity.id,
-            //             athlete_id: athleteId,  // From user data
-            //             firstname: userData.firstname,
-            //             lastname: userData.lastname,
-            //             strava_username: userData.strava_username,
-            //             profile: userData.profile,
-            //             resource_state: detailedActivity.resource_state,
-            //             profile_medium: userData.profile_medium,
-            //             name: detailedActivity.name,
-            //             distance: detailedActivity.distance,
-            //             moving_time: detailedActivity.moving_time,
-            //             elapsed_time: detailedActivity.elapsed_time,
-            //             total_elevation_gain: detailedActivity.total_elevation_gain,
-            //             sport_type: detailedActivity.type,
-            //             elev_high: detailedActivity.elev_high,
-            //             start_date: detailedActivity.start_date,
-            //             start_date_local: detailedActivity.start_date_local,
-            //             timezone: detailedActivity.timezone,
-            //             gear_id: detailedActivity.gear_id,
-            //             gear: detailedActivity.gear,
-            //             kilojoules: detailedActivity.kilojoules,
-            //             max_watts: detailedActivity.max_watts,
-            //             weighted_average_watts: detailedActivity.weighted_average_watts,
-            //             calories: detailedActivity.calories,
-            //             average_speed: detailedActivity.average_speed,
-            //             max_speed: detailedActivity.max_speed,
-            //             description: detailedActivity.description,
-            //             start_latlng: detailedActivity.start_latlng,
-            //             end_latlng: detailedActivity.end_latlng,
-            //             achievement_count: detailedActivity.achievement_count,
-            //             kudos_count: detailedActivity.kudos_count,
-            //             upload_id_str: detailedActivity.upload_id_str,
-            //             photos: detailedActivity.photos,
-            //             workout_type: detailedActivity.workout_type,
-            //             device_watts: detailedActivity.device_watts,
-            //             username:{
-            //                     connect:[userData.documentId]
-            //             }
-            //             // username: userData.strava_username,
-            //         };
-
-            //         // Write the activity data to the strava-input collection
-            //         await strava_sync(activityData);
-            //         console.log(`Activity with ID ${activity.id} synced successfully.`);
-            //     }
-            // } catch (err) {
-            //     console.error(`Error processing activity with ID ${activity.id}:`, err);
-            // }
+                // Write the activity data to the strava-input collection
+                await strava_sync(activityData);
+                console.log(`Activity with ID ${activity.id} synced successfully.`);
+            }
         }
+
+        // After processing all activities, redirect to the dashboard
+        window.location.href = '/dashboard';
 
     } catch (error) {
         console.error('Error fetching or syncing activities from Strava:', error);

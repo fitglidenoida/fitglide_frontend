@@ -1,14 +1,31 @@
-import React from 'react';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import HighchartsSolidGauge from 'highcharts/modules/solid-gauge';
+import React, { useEffect, useState } from 'react';
+import Highcharts from "highcharts";
+import highchartsMore from "highcharts/highcharts-more";
+import solidGauge from "highcharts/modules/solid-gauge";
+import HighchartsReact from "highcharts-react-official";
+import { calculateWeeklyWeightLossGoal } from '../utility/calculateWeightLossGoal'; // Import function
 
 // Initialize the Solid Gauge module
 if (typeof Highcharts === 'object') {
-    HighchartsSolidGauge(Highcharts);
+    highchartsMore(Highcharts);
+    solidGauge(Highcharts);
 }
 
-const CaloriesBurnedGauge = ({ totalCaloriesBurned }) => {
+const CaloriesBurnedGauge = ({ userId, weeklyCalories }) => {
+    const [maxCalories, setMaxCalories] = useState(null); // Set initial maxCalories to null
+
+    useEffect(() => {
+        const fetchMaxCalories = async () => {
+            const { weeklyCalorieBurnTarget } = await calculateWeeklyWeightLossGoal();
+            setMaxCalories(weeklyCalorieBurnTarget || 5000); // Update max value based on weekly target
+        };
+
+        fetchMaxCalories();
+    }, []);
+
+    // Wait until maxCalories has been set to render the chart
+    if (maxCalories === null) return null;
+
     // Options for the Solid Gauge chart
     const gaugeOptions = {
         chart: {
@@ -16,39 +33,94 @@ const CaloriesBurnedGauge = ({ totalCaloriesBurned }) => {
             backgroundColor: 'transparent',
         },
         title: {
-            text: 'Calories Burned This Week',
+            text: 'Calories Meter',
+            style: {
+                fontSize: '18px',
+                color: '#FFFFFF', // Set title color to white
+            },
+        },
+        accessibility: {
+            enabled: false, // Disable accessibility module warning
         },
         pane: {
-            startAngle: -150,
-            endAngle: 150,
-            background: [
-                {
-                    backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
-                    borderWidth: 0,
-                    outerRadius: '109%',
-                    innerRadius: '70%',
-                },
-            ],
+            center: ['50%', '50%'],
+            size: '100%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#fafafa',
+                borderRadius: 5,
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc',
+            },
+        },
+        exporting: {
+            enabled: false,
+        },
+        tooltip: {
+            enabled: true,
+            style: {
+                color: '#FFFFFF',
+            },
+            formatter: function () {
+                return `<span style="color: white;">${this.y} kcal</span>`;
+            },
         },
         yAxis: {
             min: 0,
-            max: 5000, // Adjust max based on your needs
+            max: maxCalories, // Set maximum value to weekly calorie burn target
             stops: [
-                [0.1, '#55BF3B'], // green
-                [0.5, '#DDDF0D'], // yellow
-                [0.9, '#DF5353'], // red
+                [0.1, '#f9ac54'], // orange
+                [0.5, '#f9ac54'],
+                [0.9, '#f9ac54'],
             ],
+            tickPositions: [0, maxCalories / 2, maxCalories], // Define specific tick positions
             lineWidth: 0,
-            tickInterval: 1000,
+            tickWidth: 0,
+            minorTickInterval: null,
+            tickAmount: 2,
             title: {
-                text: 'kcal',
+                y: -70,
+                style: {
+                    color: '#FFFFFF',
+                },
+            },
+            labels: {
+                y: 16,
+                style: {
+                    color: '#FFFFFF',
+                },
+                formatter: function () {
+                    return `${this.value} kcal`; // Explicit kcal label
+                },
+            },
+        },
+        plotOptions: {
+            solidgauge: {
+                borderRadius: 3,
+                dataLabels: {
+                    y: -60,
+                    borderWidth: 0,
+                    useHTML: true,
+                    style: {
+                        color: '#FFFFFF',
+                    },
+                    format: '<div style="text-align:center">' +
+                        '<span style="font-size:25px">{y}</span><br/>' +
+                        '<span style="font-size:12px;color: #FFFFFF; opacity:0.4;">kcal</span>' +
+                        '</div>',
+                },
             },
         },
         series: [{
             name: 'Calories',
-            data: [totalCaloriesBurned],
+            data: [weeklyCalories],
             tooltip: {
                 valueSuffix: ' kcal',
+                style: {
+                    color: '#FFFFFF',
+                },
             },
         }],
     };

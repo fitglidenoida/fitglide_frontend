@@ -16,7 +16,11 @@ import Details from '../src/components/details';
 import MyAccount from '../src/components/myaccount';
 import Checkout from '../src/components/checkout';
 import StravaCallback from '../src/components/stravacallback';
-import CaloriesBurnedGauge from './components/caloriesburnedgauge';
+import CaloriesBurnedGauge from '../src/components/caloriesburnedgauge';
+import UpdateWeightLossGoal from '../src/components/updateweightlossgoal';
+import WeightTracking from '../src/components/weightTracking';
+import WeightGoalEstimate from '../src/components/weightgoalestimate';
+import WeightLossChart from '../src/components/weightlosschart';
 
 
 const App = () => {
@@ -38,7 +42,12 @@ const App = () => {
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/checkout" element={<Checkout />} /> 
         <Route path="/strava/callback" element={<StravaCallback />} />
-        <Route path="/caloriesburned" element={<CaloriesBurnedGauge />} />  
+        <Route path="/caloriesburned" element={<CaloriesBurnedGauge />} />
+        <Route path="/updategoals" element={<UpdateWeightLossGoal/>} />
+        <Route path="/weighttracking" element={<WeightTracking/>} />
+        <Route path="/weightestimate" element={<WeightGoalEstimate/>} />
+        <Route path="/weightlosschart" element={<WeightLossChart/>} />
+
       </Routes>
     
   );
