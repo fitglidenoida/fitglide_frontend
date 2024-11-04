@@ -1,80 +1,125 @@
 /* Ensure the workout container is properly styled */
 .workout-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
+    padding: 10px;
+    max-width: 100%;
+    margin: 0 auto;
 }
-
 
 /* FullCalendar styling for the overall calendar */
 .fc {
     background-color: #f9f9f9;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
 }
 
-/* Styling for the day header (Sunday, Monday, etc.) */
+/* Responsiveness for the calendar header and toolbar */
+.fc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fc-toolbar h2 {
+    font-size: 1.5rem;
+}
+
+.fc-toolbar .fc-button-group {
+    display: flex;
+}
+
+/* Ensure calendar takes full screen width */
+.fc {
+    width: 100% !important;
+}
+
+/* Styling for the day header */
 .fc-col-header-cell, .fc-col-header-cell-cushion {
-    color: black !important; /* Forcing day header text color to black */
+    color: black !important;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 1rem;
 }
 
 /* Day cells in the calendar */
 .fc-daygrid-day {
-    border: 1px solid #ddd; /* Adds borders to each date cell */
-    padding: 10px;
-    color: black; /* Ensures all text inside the cell is black */
+    border: 1px solid #ddd;
+    padding: 5px;
+    color: black;
 }
 
-/* The top part of each day cell where the date number appears */
+/* Top part of each day cell */
 .fc-daygrid-day-top {
     display: flex;
     justify-content: space-between;
     padding: 5px;
-    font-size: 14px;
-    color: black; /* Ensure date numbers are black */
+    font-size: 0.9rem;
+    color: black;
 }
 
-/* The date number specifically */
+/* Date number */
 .fc-daygrid-day-number {
-    color: black; /* This makes the date numbers (e.g., 12, 13) black */
+    color: black;
     font-weight: bold;
 }
+
 /* Style for the workout events */
 .fc-event {
-    font-size: 14px;
+    font-size: 0.9rem;
     padding: 5px;
     border-radius: 5px;
-    color: white; /* Event text stays white */
+    color: white;
     text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
-.fc-timegrid .fc-slats {
-    background-color: #f9f9f9; /* Background for time slots */
-}
-
-.fc-timegrid .fc-event {
-    border: none; /* Remove borders for events */
-}
-
-/* Optional: Ensure that the time slots have a distinct appearance */
-.fc-timegrid .fc-slot {
-    border-bottom: 1px solid #ddd; /* Add a border to the time slots */
-}
-
-.fc-timegrid .fc-time-grid .fc-event {
-    margin: 2px; /* Space between events */
-}
-
-/* Example color-coding for different event types */
+/* Optional: Background color coding for events */
 .fc-event-cardio {
-    background-color: #ff6961; /* Cardio workout background */
+    background-color: #ff6961;
 }
 
 .fc-event-strength {
-    background-color: #77dd77; /* Strength workout background */
+    background-color: #77dd77;
+}
+
+/* Responsiveness adjustments */
+@media (max-width: 900px) {
+    .workout-container {
+        padding: 10px;
+    }
+
+    .fc-toolbar h2 {
+        font-size: 1.2rem;
+    }
+
+    .fc-daygrid-day {
+        padding: 8px;
+    }
+
+    .fc-event {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .fc-toolbar {
+        flex-direction: column;
+    }
+
+    .fc-toolbar .fc-button-group {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .fc-toolbar h2 {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .fc-event {
+        font-size: 0.7rem;
+    }
+
+    .fc-daygrid-day-number {
+        font-size: 0.85rem;
+    }
 }

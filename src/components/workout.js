@@ -14,19 +14,16 @@ const Workout = () => {
   useEffect(() => {
     const fetchWorkoutPlans = async () => {
       try {
-        console.log('Fetching workout plans...');
-        const response = await WorkoutPlans(); // Fetch workout plans from Strapi
-        console.log('Response:', response.dayMaxEventRows); // Log the response
+        const response = await WorkoutPlans(); 
         const formattedData = response.data.map(plan => ({
           title: `${plan.Title} (${plan.WorkoutType})`,
           start: plan.StartTime,
           backgroundColor: plan.WorkoutType === 'Cardio' ? '#ff6961' : '#77dd77',
           description: plan.Description,
         }));
-        console.log(formattedData,"sjkbdbskjdkjbsk")
         setWorkoutPlans(formattedData);
       } catch (error) {
-        console.error('Error fetching workout plans:', error); // Log the error
+        console.error('Error fetching workout plans:', error);
       }
     };
     fetchWorkoutPlans();

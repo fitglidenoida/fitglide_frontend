@@ -53,47 +53,37 @@ function Membership() {
 
       <section className="section__container price__container">
   <div className="price__grid">
-    {plans.map((plan) => (
-      <div className="price__card" key={plan.id}>
-        <div className="price__card__content">
-          <h4>{plan.description}</h4> {/* Mapped to description */}
-          <h3>₹{plan.amount}</h3> {/* Mapped to amount */}
-          <p><strong>Validity:</strong> {plan.duration} months</p> {/* Mapped to duration */}
+  {plans.map((plan) => (
+  <div className="price__card" key={plan.id}>
+    <div className="price__card__content">
+      <h4>{plan.description}</h4> {/* Matches description */}
+      <h3>₹{plan.amount}</h3> {/* Matches amount */}
+      <p><strong>Validity:</strong> {plan.duration} months</p> {/* Matches duration */}
 
-          {/* Log the entire features object */}
-          {console.log("Plan features:", plan.features)}
+      {console.log("Plan features:", plan.features)} {/* Logs the entire features object */}
 
-          {/* Ensure the plan has features and plans before accessing them */}
-          {plan.features && plan.features.plans && plan.features.plans.length > 0 ? (
-            <>
-              {/* Log the specific plan we're accessing */}
-              {console.log("Accessing plan:", plan.features.plans[0])}
-
-              {/* Access the first plan and map through its features */}
-              {plan.features.plans[0].features && plan.features.plans[0].features.map((feature, index) => (
-                <p key={index}>
-                  <i className="ri-checkbox-circle-line"></i>
-                  {feature.feature} {feature.included ? "" : "(Not included)"}
-                </p>
-              ))}
-
-              {/* Render notes below the features */}
-              {plan.features.plans[0].features && plan.features.plans[0].features.map((feature, index) => 
-                feature.note ? <p key={`note-${index}`}><strong>*</strong> {feature.note}</p> : null
-              )}
-            </>
-          ) : (
-            <p>No features available.</p> // Fallback message
-          )}
-        </div>
-        <button className="btn price__btn" onClick={() => handleJoinNow(plan)}> {/* Pass the selected plan */}
-          Join Now
-        </button>
-      </div>
-    ))}
+      {/* Check if features exist and map through them directly */}
+      {plan.features && Array.isArray(plan.features.features) && plan.features.features.length > 0 ? (
+  plan.features.features.map((feature, index) => (
+    <div key={index}>
+      <p>
+        <i className="ri-checkbox-circle-line"></i>
+        {feature.feature} {feature.included ? "" : "(Not included)"}
+      </p>
+      {feature.note && <p><strong>*</strong> {feature.note}</p>}
+    </div>
+  ))
+) : (
+  <p>No features available.</p>
+)}
+    </div>
+    <button className="btn price__btn" onClick={() => handleJoinNow(plan)}>
+      Join Now
+    </button>
+  </div>
+))}
   </div>
 </section>
-
       <section className="section__container join__container">
         <h2 className="section__header">WHY JOIN US?</h2>
         <p className="section__subheader">

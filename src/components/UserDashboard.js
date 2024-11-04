@@ -138,7 +138,7 @@ const UserDashboard = () => {
                         <i className="ri-open-arm-line"></i> Workout
                     </li>
                     <li onClick={handleConnectStrava}>
-                        <i className="ri-link-line"></i> Connect Strava
+                        <i className="ri-apps-line"></i> Connect
                     </li>
                 </ul>
                 <ul className='bottom-icon'>
