@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-    baseURL: "http://localhost:1337/api/",
+    baseURL: REACT_APP_STRAPI_URL,
     headers: {
         'Content-Type': 'application/json',
     }
@@ -12,7 +12,6 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {        
         const token = localStorage.getItem('jwt');
-        
         // Check if token exists and is not expired
         if (token) {
             const decodedToken = JSON.parse(atob(token.split('.')[1]));
