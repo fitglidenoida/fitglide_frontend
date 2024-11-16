@@ -10,7 +10,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:1337/auth/local/register', {
+      const response = await axios.post(`${process.env.REACT_APP_STRAPI_URL}/auth/local/register`, {
         username,
         email,
         password,

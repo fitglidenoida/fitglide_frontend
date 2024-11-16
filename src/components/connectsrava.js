@@ -9,7 +9,7 @@ const ConnectStrava = () => {
     const checkBinding = async () => {
       if (athleteId) {
         try {
-          const response = await axios.get(`http://localhost:1337/api/strava-bindings?filters[athelete_id][$eq]=${athleteId}`);
+          const response = await axios.get(`${process.env.REACT_APP_STRAPI_URL}/api/strava-bindings?filters[athelete_id][$eq]=${athleteId}`);
           if (response.data && response.data.length > 0) {
             setIsBound(true);
           }
@@ -24,7 +24,7 @@ const ConnectStrava = () => {
 
   const handleConnectStrava = () => {
     const clientId = '117285'; // Your Strava client ID
-    const redirectUri = 'http://localhost:3000/strava-callback'; // Your redirect URI
+    const redirectUri = `${process.env.BASE_URL}/strava-callback`; // Your redirect URI
     const scope = 'activity:read_all';
     const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}&approval_prompt=auto`;
 
@@ -33,7 +33,7 @@ const ConnectStrava = () => {
 
   const handleUnbindStrava = async () => {
     try {
-      await axios.delete(`http://localhost:1337/api/strava-bindings?filters[athelete_id][$eq]=${athleteId}`);
+      await axios.delete(`${process.env.REACT_APP_STRAPI_URL}/api/strava-bindings?filters[athelete_id][$eq]=${athleteId}`);
       localStorage.removeItem('strava_athlete_id');
       setIsBound(false);
     } catch (error) {

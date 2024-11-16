@@ -36,7 +36,7 @@ const User = () => {
   const handleSignup = async () => {
     const { email, mobile, password, username } = formData;
     try {
-      const response = await fetch('http://localhost:1337/api/auth/local/register', {
+      const response = await fetch(`${process.env.REACT_APP_STRAPI_URL}/api/auth/local/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

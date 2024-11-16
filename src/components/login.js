@@ -9,7 +9,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:1337/auth/local', {
+      const response = await axios.post(`${process.env.REACT_APP_STRAPI_URL}/auth/local`, {
         identifier, // This can be either username or email
         password,
       });
