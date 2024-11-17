@@ -117,10 +117,11 @@ const UserDashboard = () => {
 
     const handleConnectStrava = () => {
         const clientId = 117285; 
-        const redirectUri = `${process.env.BASE_URL}/strava/callback`; 
+        const redirectUri = `${process.env.REACT_APP_BASE_URL}/strava/callback`; 
         const scope = 'read,activity:read'; 
         const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
-        window.location.href = authUrl;
+        console.log(redirectUri,process.env)
+        //window.location.href = authUrl;
     };
 
     return (
