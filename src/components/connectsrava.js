@@ -24,7 +24,7 @@ const ConnectStrava = () => {
 
   const handleConnectStrava = () => {
     const clientId = '117285'; // Your Strava client ID
-    const redirectUri = `${process.env.BASE_URL}/strava-callback`; // Your redirect URI
+    const redirectUri = `${process.env.REACT_APP_BASE_URL}/strava-callback`; // Your redirect URI
     const scope = 'activity:read_all';
     const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}&approval_prompt=auto`;
 

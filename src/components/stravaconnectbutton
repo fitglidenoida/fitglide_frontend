@@ -33,7 +33,7 @@ const StravaConnectButton = () => {
     } else {
       // Connect Strava: check if user already exists in the database
       const clientId = '117285'; // Your Strava Client ID
-      const redirectUri = `${process.env.BASE_URL}/callback`; // Your redirect URI
+      const redirectUri = `${process.env.REACT_APP_BASE_URL}/callback`; // Your redirect URI
       const scope = 'read,activity:read_all'; // Strava permissions scope
 
       // Redirect to Strava OAuth page
