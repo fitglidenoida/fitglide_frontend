@@ -17,7 +17,7 @@ const Home = () => (
       </div>
       <NavLink />
       <a href="/user">
-        <button className="btn">Join Now</button>
+        <button className="btn">Login</button>
       </a>
     </nav>
 
