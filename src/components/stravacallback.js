@@ -17,7 +17,7 @@ const StravaCallback = () => {
         try {
          const response = await axios.post('https://www.strava.com/oauth/token', {
             client_id: '117285',
-             client_secret: '43bc2b20ab1c0baa17e4f0b5d438576102280379',
+             client_secret: 'f745c3921d32c355143d001e177b9d717ceb201d',
              code: code,
              grant_type: 'authorization_code',
          });
