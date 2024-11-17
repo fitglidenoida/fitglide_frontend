@@ -120,7 +120,8 @@ const UserDashboard = () => {
         const redirectUri = `${process.env.REACT_APP_BASE_URL}/strava/callback`; 
         const scope = 'read,activity:read'; 
         const authUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
-        console.log(redirectUri,process.env)
+        console.log(redirectUri,process.env);
+        
         //window.location.href = authUrl;
     };
 
