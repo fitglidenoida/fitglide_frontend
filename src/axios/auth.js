@@ -51,7 +51,7 @@ const StravaData = () => api.get('strava-inputs?populate=*');
 // Update health vitals
 const updateHealthVital = (data) => api.put('health-vitals', data);
 
-const weightLogs = () => api.get('weightlogs?_sort=data.logdate:desc'); // Assuming the endpoint is 'health-vitals'
+const weightLogs = () => api.get('weightlogs?_sort=date:DESC&_start=0&_limit=100'); // Assuming the endpoint is 'health-vitals'
 
 export {
     login,
