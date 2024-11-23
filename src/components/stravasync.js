@@ -59,6 +59,15 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
             const detailedActivity = detailedActivityResponse.data;
             console.log("detailedActivity", detailedActivity);
 
+            // Handle missing coordinates by assigning default values [0, 0]
+                const startLatLng = detailedActivity.start_latlng && detailedActivity.start_latlng.length > 0 
+                ? detailedActivity.start_latlng 
+                : [0, 0];
+
+                const endLatLng = detailedActivity.end_latlng && detailedActivity.end_latlng.length > 0 
+                ? detailedActivity.end_latlng 
+                : [0, 0];
+
             // Check if the activity already exists in the strava-input collection by its activity ID
             const result = await strava_input(activity.id);
             if (result.data.length > 0) {
@@ -92,8 +101,6 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
                     average_speed: detailedActivity.average_speed,
                     max_speed: detailedActivity.max_speed,
                     description: detailedActivity.description,
-                    start_latlng: detailedActivity.start_latlng,
-                    end_latlng: detailedActivity.end_latlng,
                     achievement_count: detailedActivity.achievement_count,
                     kudos_count: detailedActivity.kudos_count,
                     upload_id_str: detailedActivity.upload_id_str,
