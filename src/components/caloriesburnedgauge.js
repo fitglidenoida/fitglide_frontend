@@ -32,6 +32,11 @@ const CaloriesBurnedGauge = ({ userId, weeklyCalories }) => {
             type: 'solidgauge',
             backgroundColor: 'transparent',
         },
+
+        credits: {
+            enabled: false
+        },
+
         title: {
             text: 'Calories Meter',
             style: {
