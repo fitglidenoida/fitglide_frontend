@@ -76,8 +76,8 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
                 const activityData = {
                     activity_id: activity.id,
                     athlete_id: athleteId,  // From user data
-                    firstname: userData.firstname,
-                    lastname: userData.lastname,
+                    firstname: userData.First_name,                    
+                    lastname: userData.Last_name,
                     strava_username: userData.strava_username,
                     profile: userData.profile,
                     resource_state: detailedActivity.resource_state,

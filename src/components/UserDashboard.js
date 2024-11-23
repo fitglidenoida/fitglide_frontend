@@ -178,7 +178,7 @@ const UserDashboard = () => {
                 />
             ) : (
                 <img
-                    src={`${baseURL}/uploads/default_avatar.png`}
+                    src={`${baseURL}/uploads/default_avatar_42affc6124.png`}
                     alt="Default Profile"
                     className="profile-picture"
                     onClick={() => handleTabClick('myaccount')}
