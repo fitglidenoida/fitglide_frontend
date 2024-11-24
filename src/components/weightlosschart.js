@@ -7,11 +7,11 @@ import { estimateFutureLoss } from '../utility/weightTrackingUtils';
 
 const WeightTracking = () => {
     const [chartOptions, setChartOptions] = useState({});
-
+    const userDetail = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         const fetchData = async () => {
-            const username = 'currentUsername'; // Replace with actual username
-
+            const username = userDetail.username; // Replace with actual username
+            console.log(userDetail)
             try {
                 const healthVitals = await Stats(username);
                 const weightLogsData = await weightLogs(username);

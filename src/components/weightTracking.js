@@ -6,11 +6,12 @@ import {calculateWeeklyProgress, estimateFutureLoss} from '../utility/weightTrac
 
 const WeightTracking = () => {
     const [weeksToGoal, setWeeksToGoal] = useState(null);
-
+    const userDetail = localStorage.getItem("user");
+    console.log("herere")
     useEffect(() => {
         const fetchData = async () => {
-            const username = 'currentUsername'; // Replace with actual username
-
+            const username = userDetail.username; // Replace with actual username
+            console.log(username,"usernameusername")
             try {
                 const healthVitals = await Stats(username);
                 const currentWeight = healthVitals.data[0].WeightInKilograms;
