@@ -51,6 +51,9 @@ const WeightTracking = () => {
                         backgroundColor: '#f9ac54', // Change background color
                         borderRadius: 10, // Rounded borders
                     },
+                    credits: {
+                        enabled: false
+                    },
                     title: {
                         text: 'Weight Tracking',
                         align: 'center',
