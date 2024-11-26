@@ -39,7 +39,7 @@ const UserDashboard = () => {
                 })
                 .catch(e => console.log(e.message));
 
-            Stats(userdetail.documentId)
+            Stats(userdetail.username)
                 .then(response => {
                     if (response?.data?.length > 0) {
                         setHealthVitals(response.data[0]);

@@ -28,7 +28,7 @@ const Plans = () => api.get('plans?populate=*'); // Assuming the endpoint is 'su
 const Orders = () => api.get('create-order?populate=*'); // Assuming the endpoint is 'subplans'
 
 // Fetch health vitals
-const Stats = () => api.get('health-vitals?populate=*'); // Assuming the endpoint is 'health-vitals'
+const Stats = (username) => api.get(`health-vitals?populate=*&filters[username][username][$eq]=${username}`); // Assuming the endpoint is 'health-vitals'
 
 // Fetch strava binding
 const strava_bind = (athleteId) => api.get(`strava-bindings?athlete_id=${athleteId}`); // Assuming the endpoint is 'strava'
