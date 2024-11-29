@@ -46,7 +46,7 @@ const strava_sync = (data) => api.post(`strava-inputs`, { 'data': data });
 const strava_athlete = (athleteId) => api.get(`strava-bindings?athlete_id=${athleteId}`); // Assuming the endpoint is 'strava'
 
 // Fetch strava data
-const StravaData = () => api.get('strava-inputs?populate=*');
+const StravaData = (username) => api.get(`strava-inputs?populate=*&filters[username][username][$eq]=${username}`);
 
 // Update health vitals
 const updateHealthVital = (data) => api.put('health-vitals', data);

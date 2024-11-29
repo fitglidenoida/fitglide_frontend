@@ -39,7 +39,7 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
         });
 
         const activities = response.data;
-
+        console.log(activities,"activiviiviviiviviviivivi")
         if (!activities || activities.length === 0) {
             console.log('No activities found for the athlete.');
             return;
@@ -73,11 +73,12 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
             if (result.data.length > 0) {
                 console.log(`Activity with ID ${activity.id} already exists.`);
             } else {
+                console.log("activitydata",)
                 const activityData = {
                     activity_id: activity.id,
                     athlete_id: athleteId,  // From user data
-                    firstname: userData.First_name,                    
-                    lastname: userData.Last_name,
+                    // firstname: userData.First_name,                    
+                    // lastname: userData.Last_name,
                     strava_username: userData.strava_username,
                     profile: userData.profile,
                     resource_state: detailedActivity.resource_state,
@@ -114,12 +115,12 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
 
                 // Write the activity data to the strava-input collection
                 await strava_sync(activityData);
-                console.log(`Activity with ID ${activity.id} synced successfully.`);
+                console.log(`Activity with ID ${activity.id} synced successfully.`,activityData);
             }
         }
 
         // After processing all activities, redirect to the dashboard
-        window.location.href = '/dashboard';
+        //window.location.href = '/dashboard';
 
     } catch (error) {
         console.error('Error fetching or syncing activities from Strava:', error);

@@ -52,7 +52,7 @@ const UserDashboard = () => {
         }
 
         // Fetch calories burned from Strava input for the current week and today
-        StravaData()
+        StravaData(userdetail.username)
             .then(response => {
                 const stravaData = response.data;
 
