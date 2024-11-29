@@ -119,8 +119,13 @@ export const fetchStravaActivities = async (accessToken, retryCount = 0) => {
             }
         }
 
+        const deactivate = await axios.post('https://www.strava.com/oauth/deauthorize', {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            
+        });
+
         // After processing all activities, redirect to the dashboard
-        //window.location.href = '/dashboard';
+        window.location.href = '/dashboard';
 
     } catch (error) {
         console.error('Error fetching or syncing activities from Strava:', error);
