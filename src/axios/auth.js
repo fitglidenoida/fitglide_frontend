@@ -51,7 +51,21 @@ const StravaData = (username) => api.get(`strava-inputs?populate=*&filters[usern
 // Update health vitals
 const updateHealthVital = (data) => api.put('health-vitals', data);
 
+// fetch Weightlogs
 const weightLogs = (username) => api.get(`weightlogs?filters[username][username][$eq]=${username}&sort=logdate:DESC`); // Assuming the endpoint is 'health-vitals'
+
+// fetch Weightlogs
+const updateweightLogs = (username) => api.put(`weightlogs?filters[username][username][$eq]=${username}&sort=logdate:DESC`); // Assuming the endpoint is 'health-vitals'
+const addweightLogs = (username) => api.post(`weightlogs?filters[username][username][$eq]=${username}&sort=logdate:DESC`); // Assuming the endpoint is 'health-vitals'
+
+
+// fetch subscription Plans
+const subPlans = () => api.get(`subscriptions?populate=*&filters[username][username][$eq]=${username}`);
+
+//Updae Subscription plans
+const updatePlan = (planId, data) => api.put(`plans/${planId}`, { data });
+
+
 
 export {
     login,
@@ -71,5 +85,9 @@ export {
     strava_athlete,
     updateMe,
     StravaData,
-    weightLogs
+    weightLogs,
+    updateweightLogs,
+    subPlans,
+    updatePlan,
+    addweightLogs
 };

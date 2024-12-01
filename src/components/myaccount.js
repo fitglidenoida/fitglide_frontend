@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { me, updateUser } from '../axios/auth';  // Import the API call to fetch user details
-import '../styles/myaccount.css';
+import '../styles/myaccount-module.css';
 
 const MyAccount = () => {
     const [user, setUser] = useState({
@@ -115,14 +115,14 @@ const MyAccount = () => {
         }
     };
 
-    if (error) return <div className="error">{error}</div>;
-    if (loading) return <div>Loading...</div>;
+    if (error) return <div className="myaccount-error">{error}</div>;
+    if (loading) return <div className="myaccount-loading">Loading...</div>;
 
     return (
-        <div className="form-container">
-            <div className="form-sections">
-                <div className="left-section">
-                    <div className="input-group">
+        <div className="myaccount-form-container">
+            <div className="myaccount-form-sections">
+                <div className="myaccount-left-section">
+                    <div className="myaccount-input-group">
                         <label htmlFor="First_name">First Name</label>
                         <input
                             type="text"
@@ -133,7 +133,7 @@ const MyAccount = () => {
                             disabled={!isEditing}
                         />
                     </div>
-                    <div className="input-group">
+                    <div className="myaccount-input-group">
                         <label htmlFor="Last_Name">Last Name</label>
                         <input
                             type="text"
@@ -144,7 +144,7 @@ const MyAccount = () => {
                             disabled={!isEditing}
                         />
                     </div>
-                    <div className="input-group">
+                    <div className="myaccount-input-group">
                         <label htmlFor="email">Email</label>
                         <input
                             type="email"
@@ -155,7 +155,7 @@ const MyAccount = () => {
                             disabled={!isEditing}
                         />
                     </div>
-                    <div className="input-group">
+                    <div className="myaccount-input-group">
                         <label htmlFor="mobile">Contact</label>
                         <input
                             type="tel"
@@ -167,8 +167,8 @@ const MyAccount = () => {
                         />
                     </div>
                 </div>
-                <div className="right-section">
-                    <div className="input-group">
+                <div className="myaccount-right-section">
+                    <div className="myaccount-input-group">
                         <label htmlFor="Address_line_1">Address</label>
                         <input
                             type="text"
@@ -179,7 +179,7 @@ const MyAccount = () => {
                             disabled={!isEditing}
                         />
                     </div>
-                    <div className="input-group">
+                    <div className="myaccount-input-group">
                         <label htmlFor="City">City</label>
                         <input
                             type="text"
@@ -190,7 +190,7 @@ const MyAccount = () => {
                             disabled={!isEditing}
                         />
                     </div>
-                    <div className="input-group">
+                    <div className="myaccount-input-group">
                         <label htmlFor="state">State</label>
                         <input
                             type="text"
@@ -201,7 +201,7 @@ const MyAccount = () => {
                             disabled={!isEditing}
                         />
                     </div>
-                    <div className="input-group">
+                    <div className="myaccount-input-group">
                         <label htmlFor="date_of_birth">Date of Birth</label>
                         <input
                             type="date"
@@ -215,9 +215,9 @@ const MyAccount = () => {
                 </div>
             </div>
             {isEditing ? (
-                <button className="submit-button" onClick={handleSave}>Update Profile</button>
+                <button className="myaccount-submit-button" onClick={handleSave}>Update Profile</button>
             ) : (
-                <button className="submit-button" onClick={handleEdit}>Edit Profile</button>
+                <button className="myaccount-submit-button" onClick={handleEdit}>Edit Profile</button>
             )}
         </div>
     );

@@ -27,7 +27,7 @@ const Details = () => {
                     // Handle error appropriately, e.g., redirect to login
                 });
         } else {
-            navigate('/login'); // Redirect to login if user detail is invalid
+            navigate('/user'); // Redirect to login if user detail is invalid
         }
     }, [navigate]);
 

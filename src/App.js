@@ -6,7 +6,6 @@ import Program from '../src/components/services';
 import Contact from '../src/components/contact';
 import Membership from '../src/components/membership';
 import Users from '../src/components/user';
-import Login from '../src/components/login';
 import Signup from '../src/components/singup';
 import './styles/style.css';
 import UserDashboard from '../src/components/UserDashboard';
@@ -21,6 +20,9 @@ import UpdateWeightLossGoal from '../src/components/updateweightlossgoal';
 import WeightTracking from '../src/components/weightTracking';
 import WeightGoalEstimate from '../src/components/weightgoalestimate';
 import WeightLossChart from '../src/components/weightlosschart';
+import Settings from '../src/components/settings';
+import FitJournal from '../src/components/fitjournal';
+
 
 
 const App = () => {
@@ -33,7 +35,6 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/membership" element={<Membership />} />
         <Route path="/user" element={<Users />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/singup" element={<Signup />} />
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/workout" element={<Workout />} />
@@ -47,7 +48,8 @@ const App = () => {
         <Route path="/weighttracking" element={<WeightTracking/>} />
         <Route path="/weightestimate" element={<WeightGoalEstimate/>} />
         <Route path="/weightlosschart" element={<WeightLossChart/>} />
-
+        <Route path="/settings" element={<Settings/>} />
+        <Route path="/fitjournal" element={<FitJournal/>} />
       </Routes>
     
   );

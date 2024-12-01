@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main container */
+.settings-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 40px;
+    background-color: var(--primary-color);
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Tabs styling */
+.settings-tabs {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+    overflow: hidden;
+}
+
+.settings-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: none;
+    background: none;
+}
+
+.settings-tab.active {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+
+/* Tab content */
+.settings-tab-content {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tab-panel {
+    display: none;
+    width: 100%;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* Form sections */
+.settings-form-sections {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+}
+
+/* Left and Right sections of the form */
+.settings-left-section,
+.settings-right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input group styling */
+.settings-input-group {
+    margin-bottom: 20px;
+}
+
+.settings-input-group label {
+    display: block;
+    color: var(--primary-color-light);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.settings-input-group input {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--white);
+    color: var(--primary-color-extra-light);
+    border: 1px solid var(--text-light);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.settings-input-group input:disabled {
+    background-color: var(--white);
+    color: var(--primary-color-extra-light);
+}
+
+.settings-input-group input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+/* Button container styling */
+.settings-button-container {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    align-items: center;
+    gap: 15px; /* Add space between buttons */
+    width: 100%;
+    margin-top: auto; /* Push to the bottom */
+    padding-top: 20px;
+}
+
+/* Button styling */
+.settings-submit-button {
+    display: block;
+    width: 40%; /* Smaller width for the buttons */
+    max-width: 200px; /* Ensure buttons don’t stretch too much */
+    padding: 10px; /* Slightly smaller padding */
+    background-color: var(--secondary-color);
+    color: var(--white);
+    font-size: 0.9rem; /* Smaller font size */
+    font-weight: 500;
+    border: none;
+    border-radius: 6px; /* Reduced border radius */
+    cursor: pointer;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+    margin-top: -2rem;
+}
+
+.settings-submit-button:hover {
+    background-color: var(--secondary-color-dark);
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .settings-form-sections {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .settings-submit-button {
+        width: 100%; /* Full-width button for smaller screens */
+    }
+
+    .settings-tabs {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .settings-form-container {
+        padding: 20px;
+    }
+
+    .settings-form-sections {
+        max-width: 100%;
+        gap: 10px;
+    }
+
+    .settings-left-section, .settings-right-section {
+        padding: 0;
+    }
+
+    .settings-input-group input {
+        padding: 8px;
+    }
+
+    .settings-submit-button {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}

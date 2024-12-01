@@ -9,6 +9,9 @@ import Workout from '../components/workout';
 import Diet from '../components/diet';
 import MyAccount from '../components/myaccount';
 import WeightTracking from '../components/weightlosschart';
+import Settings from '../components/settings';
+import FitJournal from '../components/fitjournal';
+
 
 const baseURL = `${process.env.REACT_APP_STRAPI_URL}/`;
 
@@ -149,6 +152,12 @@ const UserDashboard = () => {
                     <li onClick={handleConnectStrava}>
                         <i className="ri-apps-line"></i> Connect
                     </li>
+                    <li onClick={() => handleTabClick('settings')}>
+                        <i className="ri-settings-2-line"></i> Settings
+                    </li>
+                    <li onClick={() => handleTabClick('fitjournal')}>
+                        <i className="ri-pulse-line"></i> Fitjournal
+                    </li>
                 </ul>
                 <ul className='bottom-icon'>
                     <li onClick={handleSignout}>
@@ -235,6 +244,18 @@ const UserDashboard = () => {
                             <MyAccount />
                         </div>
                     )}
+                    
+                    {activeTab === 'settings' && (
+                        <div className="settings-container">
+                            <Settings />
+                        </div>
+                    )}
+                    {activeTab === 'fitjournal' && (
+                        <div className="fitjournal-container">
+                            <FitJournal />
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>
