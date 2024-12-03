@@ -70,7 +70,7 @@
 /* Form sections */
 .settings-form-sections {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex-wrap: wrap;
     gap: 20px;
     width: 100%;
@@ -193,4 +193,9 @@
         padding: 10px;
         font-size: 0.9rem;
     }
+}
+
+.weight-log-item{
+    display: flex;
+        margin: 5px;
 }

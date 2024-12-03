@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../src/components/home';
 import About from '../src/components/about';
@@ -22,11 +22,15 @@ import WeightGoalEstimate from '../src/components/weightgoalestimate';
 import WeightLossChart from '../src/components/weightlosschart';
 import Settings from '../src/components/settings';
 import FitJournal from '../src/components/fitjournal';
+import Header from './components/header';
 
 
 
 const App = () => {
+  
+
   return (
+    <>
     
       <Routes>
         <Route path="/" element={<Home />} />
@@ -51,6 +55,7 @@ const App = () => {
         <Route path="/settings" element={<Settings/>} />
         <Route path="/fitjournal" element={<FitJournal/>} />
       </Routes>
+      </>
     
   );
 };

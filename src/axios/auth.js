@@ -49,15 +49,14 @@ const strava_athlete = (athleteId) => api.get(`strava-bindings?athlete_id=${athl
 const StravaData = (username) => api.get(`strava-inputs?populate=*&filters[username][username][$eq]=${username}`);
 
 // Update health vitals
-const updateHealthVital = (data) => api.put('health-vitals', data);
+const updateHealthVital = ({ documentId, data }) => api.put(`health-vitals/${documentId}`, { data });
 
 // fetch Weightlogs
 const weightLogs = (username) => api.get(`weightlogs?filters[username][username][$eq]=${username}&sort=logdate:DESC`); // Assuming the endpoint is 'health-vitals'
 
 // fetch Weightlogs
-const updateweightLogs = (username) => api.put(`weightlogs?filters[username][username][$eq]=${username}&sort=logdate:DESC`); // Assuming the endpoint is 'health-vitals'
-const addweightLogs = (username) => api.post(`weightlogs?filters[username][username][$eq]=${username}&sort=logdate:DESC`); // Assuming the endpoint is 'health-vitals'
-
+const updateweightLogs = (logId, data) => api.put(`weightlogs/${logId}`, { data });
+const addweightLogs = (data) => api.post(`weightlogs`, { 'data': data });
 
 // fetch subscription Plans
 const subPlans = () => api.get(`subscriptions?populate=*&filters[username][username][$eq]=${username}`);

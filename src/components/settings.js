@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { me, updateMe, subPlans } from '../axios/auth';
+import { me, updateMe, subPlans,updateUser } from '../axios/auth';
 import '../styles/settings-module.css';
 
 const Settings = () => {
@@ -16,7 +16,7 @@ const Settings = () => {
         your_image: '',
     });
 
-    const [activeTab, setActiveTab] = useState('general');
+    const [activeTab, setActiveTab] = useState('general'); // Manage active tab state
     const [formData, setFormData] = useState({ ...user });
     const [plans, setPlans] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -54,8 +54,9 @@ const Settings = () => {
 
     // Save updated user details
     const handleSave = async () => {
+        console.log(user)
         try {
-            await updateMe(formData);
+            await updateUser(user.id,formData);
             setUser(formData);
             setIsEditing(false);
             alert('Profile updated successfully!');
@@ -63,6 +64,76 @@ const Settings = () => {
             alert('Error updating profile: ' + error.message);
         }
     };
+
+    // Render the General tab content
+    const renderGeneralTab = () => (
+        <>
+        <div className="settings-form-sections">
+            <div className="settings-left-section">
+                {['First_name', 'Last_name', 'email', 'mobile'].map((field) => (
+                    <div className="settings-input-group" key={field}>
+                        <label htmlFor={field}>{field.replace('_', ' ')}</label>
+                        <input
+                            type="text"
+                            name={field}
+                            value={formData[field] || ''}
+                            onChange={handleChange}
+                            disabled={!isEditing}
+                        />
+                    </div>
+                ))}
+            </div>
+            <div className="settings-right-section">
+                {['Address_line_1', 'Address_line_2', 'City', 'your_image'].map((field) => (
+                    <div className="settings-input-group" key={field}>
+                        <label htmlFor={field}>{field.replace('_', ' ')}</label>
+                        {field === 'your_image' ? (
+                            <input
+                                type="file"
+                                name={field}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, your_image: e.target.files[0] })
+                                }
+                                disabled={!isEditing}
+                            />
+                        ) : (
+                            <input
+                                type="text"
+                                name={field}
+                                value={formData[field] || ''}
+                                onChange={handleChange}
+                                disabled={!isEditing}
+                            />
+                        )}
+                    </div>
+                ))}
+            </div>
+            
+        </div>
+        <div className='buttons-div'>
+        <div className="settings-submit-button m-2" onClick={() => setIsEditing(!isEditing)}>
+                {isEditing ? 'Cancel' : 'Edit'}
+            </div>
+            {isEditing && (
+                <div className="settings-submit-button m-2" onClick={handleSave}>
+                    Save
+                </div>
+            )}
+            
+        </div>
+        
+        </>
+    );
+
+    // Render the Plans tab content
+    const renderPlansTab = () => (
+        <div className="settings-form-sections">
+            <div className="settings-left-section">
+                <h3>Your Subscribed Plans</h3>
+                <div>{plans || 'Loading plans...'}</div>
+            </div>
+        </div>
+    );
 
     return (
         <div className="settings-form-container">
@@ -81,78 +152,10 @@ const Settings = () => {
                     Plans
                 </button>
             </div>
-
             {/* Tab Content */}
             <div className="settings-tab-content">
-                {/* General Tab */}
-                <div className={`tab-panel ${activeTab === 'general' ? 'active' : ''}`}>
-                    <div className="settings-form-sections">
-                        <div className="settings-left-section">
-                            {['First_name', 'Last_Name', 'email', 'mobile'].map((field) => (
-                                <div className="settings-input-group" key={field}>
-                                    <label htmlFor={field}>{field.replace('_', ' ')}</label>
-                                    <input
-                                        type="text"
-                                        name={field}
-                                        value={formData[field] || ''}
-                                        onChange={handleChange}
-                                        disabled={!isEditing}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <div className="settings-right-section">
-                            {['Address_line_1', 'Address_line_2', 'City', 'your_image'].map((field) => (
-                                <div className="settings-input-group" key={field}>
-                                    <label htmlFor={field}>{field.replace('_', ' ')}</label>
-                                    {field === 'your_image' ? (
-                                        <input
-                                            type="file"
-                                            name={field}
-                                            onChange={(e) =>
-                                                setFormData({ ...formData, your_image: e.target.files[0] })
-                                            }
-                                            disabled={!isEditing}
-                                        />
-                                    ) : (
-                                        <input
-                                            type="text"
-                                            name={field}
-                                            value={formData[field] || ''}
-                                            onChange={handleChange}
-                                            disabled={!isEditing}
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Button Section */}
-                        <div className="settings-button-container">
-                            <button
-                                className="settings-submit-button"
-                                onClick={() => setIsEditing(!isEditing)}
-                            >
-                                {isEditing ? 'Cancel' : 'Edit'}
-                            </button>
-                            {isEditing && (
-                                <button className="settings-submit-button" onClick={handleSave}>
-                                    Save
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Plans Tab */}
-                <div className={`tab-panel ${activeTab === 'plans' ? 'active' : ''}`}>
-                    <div className="settings-form-sections">
-                        <div className="settings-left-section">
-                            <h3>Your Subscribed Plans</h3>
-                            <div>{plans || 'No Active Plans'}</div>
-                        </div>
-                    </div>
-                </div>
+                {activeTab === 'general' && renderGeneralTab()}
+                {activeTab === 'plans' && renderPlansTab()}
             </div>
         </div>
     );

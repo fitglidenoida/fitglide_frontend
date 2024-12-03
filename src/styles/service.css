@@ -378,6 +378,17 @@ nav {
   color: var(--white);
 }
 
+.buttons-div {
+  margin-top: 5vh;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+
+}
+.m-2 {
+  margin:2px
+}
+
 .footer__col > a {
   display: block;
   margin-bottom: 1rem;

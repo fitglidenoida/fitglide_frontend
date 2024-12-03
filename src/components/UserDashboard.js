@@ -11,6 +11,7 @@ import MyAccount from '../components/myaccount';
 import WeightTracking from '../components/weightlosschart';
 import Settings from '../components/settings';
 import FitJournal from '../components/fitjournal';
+import { Link } from 'react-router-dom';
 
 
 const baseURL = `${process.env.REACT_APP_STRAPI_URL}/`;
@@ -158,6 +159,10 @@ const UserDashboard = () => {
                     <li onClick={() => handleTabClick('fitjournal')}>
                         <i className="ri-pulse-line"></i> Fitjournal
                     </li>
+
+                    {/* <li >
+                        <Link to='/fitjournal'><i className="ri-pulse-line"></i> Fitjournal</Link>
+                    </li> */}
                 </ul>
                 <ul className='bottom-icon'>
                     <li onClick={handleSignout}>
