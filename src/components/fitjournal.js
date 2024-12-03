@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Stats, weightLogs, updateHealthVital, updateweightLogs, addweightLogs } from '../axios/auth';
+import '../styles/fitjournal.css';
 
 const FitJournal = () => {
   const [activeTab, setActiveTab] = useState('healthvitals');
@@ -297,7 +298,7 @@ const FitJournal = () => {
     <button onClick={() => handleSave('weightlogs')}>Add Weight Log</button>
   </div> */}
   <div className="weight-log-list">
-    <table>
+  <table>
       <thead>
       <th>Date</th>
       <th>Weight</th>

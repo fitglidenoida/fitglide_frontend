@@ -8,7 +8,7 @@
 }
 
 /* Main container */
-.settings-form-container {
+.weight-log-form-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -20,7 +20,7 @@
 }
 
 /* Tabs styling */
-.settings-tabs {
+.weight-log-tabs {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -32,7 +32,7 @@
     overflow: hidden;
 }
 
-.settings-tab {
+.sweight-log-tab {
     flex: 1;
     padding: 10px;
     text-align: center;
@@ -44,13 +44,13 @@
     background: none;
 }
 
-.settings-tab.active {
+.sweight-log-tab.active {
     background-color: var(--secondary-color);
     color: var(--white);
 }
 
 /* Tab content */
-.settings-tab-content {
+.weight-log-tab-content {
     width: 100%;
     max-width: 800px;
     display: flex;
@@ -68,7 +68,7 @@
 }
 
 /* Form sections */
-.settings-form-sections {
+.weight-log-form-sections {
     display: flex;
     /* justify-content: space-between; */
     flex-wrap: wrap;
@@ -81,8 +81,8 @@
 }
 
 /* Left and Right sections of the form */
-.settings-left-section,
-.settings-right-section {
+.weight-log-left-section,
+.weight-log-right-section {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -90,18 +90,18 @@
 }
 
 /* Input group styling */
-.settings-input-group {
+.weight-log-group {
     margin-bottom: 20px;
 }
 
-.settings-input-group label {
+.weight-log-group label {
     display: block;
     color: var(--primary-color-light);
     font-weight: 500;
     margin-bottom: 5px;
 }
 
-.settings-input-group input {
+.weight-log-group input {
     width: 100%;
     padding: 10px;
     background-color: var(--white);
@@ -111,18 +111,18 @@
     font-size: 1rem;
 }
 
-.settings-input-group input:disabled {
+.weight-log-group input:disabled {
     background-color: var(--white);
     color: var(--primary-color-extra-light);
 }
 
-.settings-input-group input:focus {
+.weight-log-group input:focus {
     border-color: var(--secondary-color);
     outline: none;
 }
 
 /* Button container styling */
-.settings-button-container {
+.weight-log-container {
     display: flex;
     justify-content: center; /* Center the buttons */
     align-items: center;
@@ -133,7 +133,7 @@
 }
 
 /* Button styling */
-.settings-submit-button {
+.weight-log-submit-button {
     display: block;
     width: 40%; /* Smaller width for the buttons */
     max-width: 200px; /* Ensure buttons don’t stretch too much */
@@ -150,50 +150,11 @@
     margin-top: -2rem;
 }
 
-.settings-submit-button:hover {
+.weight-log-submit-button:hover {
     background-color: var(--secondary-color-dark);
 }
 
-/* Responsive Design */
-@media only screen and (max-width: 768px) {
-    .settings-form-sections {
-        flex-direction: column;
-        gap: 15px;
-    }
 
-    .settings-submit-button {
-        width: 100%; /* Full-width button for smaller screens */
-    }
-
-    .settings-tabs {
-        flex-direction: column;
-    }
-}
-
-@media only screen and (max-width: 425px) {
-    .settings-form-container {
-        padding: 20px;
-    }
-
-    .settings-form-sections {
-        max-width: 100%;
-        gap: 10px;
-    }
-
-    .settings-left-section, .settings-right-section {
-        padding: 0;
-    }
-
-    .settings-input-group input {
-        padding: 8px;
-    }
-
-    .settings-submit-button {
-        width: 100%;
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-}
 
 .weight-log-item{
     display: flex;
@@ -214,7 +175,7 @@
   .weight-log-list th,
   .weight-log-list td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     border: 1px solid #ddd;
     
   }
@@ -233,3 +194,44 @@
   .weight-log-list tr:hover {
     background-color: #f1f1f1;
   }
+
+  /* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .weight-log-form-sections {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .weight-log-submit-button {
+        width: 100%; /* Full-width button for smaller screens */
+    }
+
+    .weight-log-tabs {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .weight-log-form-container {
+        padding: 20px;
+    }
+
+    .weight-log-form-sections {
+        max-width: 100%;
+        gap: 10px;
+    }
+
+    .weight-log-left-section, .settings-right-section {
+        padding: 0;
+    }
+
+    .weight-log-input-group input {
+        padding: 8px;
+    }
+
+    .weight-log-submit-button {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
