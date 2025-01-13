@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import '../styles/user.css'; // assuming you save the CSS in User.css
 
@@ -12,7 +12,9 @@ const User = () => {
     mobile: '',
     password: '',
     confirmPassword: '',
-    username: ''
+    username: '',
+    firstName: '', // Add first_name field
+    lastName: '',  // Add last_name field
   });
 
   const navigate = useNavigate(); // Initialize the useNavigate hook
@@ -34,7 +36,7 @@ const User = () => {
   };
 
   const handleSignup = async () => {
-    const { email, mobile, password, username } = formData;
+    const { email, mobile, password, username, firstName, lastName } = formData;
     try {
       const response = await fetch(`${process.env.REACT_APP_STRAPI_URL}/api/auth/local/register`, {
         method: 'POST',
@@ -43,7 +45,9 @@ const User = () => {
           username,
           email,
           password,
-          mobile
+          mobile,
+          firstName, // Include first_name in the request body
+          lastName,  // Include last_name in the request body
         })
       });
       const data = await response.json();
@@ -54,7 +58,9 @@ const User = () => {
           mobile: '',
           password: '',
           confirmPassword: '',
-          username: ''
+          username: '',
+          firstName: '',
+          lastName: '',
         });
               // Store JWT token for future API requests
       localStorage.setItem('jwt', data.jwt);
@@ -82,7 +88,9 @@ const User = () => {
         mobile: '',
         password: '',
         confirmPassword: '',
-        username: ''
+        username: '',
+        firstName: '',
+        lastName: '',
       });
       // Store JWT token for future API requests
       localStorage.setItem('jwt', data.jwt);

@@ -23,6 +23,7 @@ import WeightLossChart from '../src/components/weightlosschart';
 import Settings from '../src/components/settings';
 import FitJournal from '../src/components/fitjournal';
 import Header from './components/header';
+import PrivacyPolicy from './components/privacypolicy';
 
 
 
@@ -54,6 +55,7 @@ const App = () => {
         <Route path="/weightlosschart" element={<WeightLossChart/>} />
         <Route path="/settings" element={<Settings/>} />
         <Route path="/fitjournal" element={<FitJournal/>} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy/>} />
       </Routes>
       </>
     
